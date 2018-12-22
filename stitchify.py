@@ -17,22 +17,55 @@
 __author__ = "Noëlle Anthony"
 __version__ = "0.1.0"
 
+import sys
 from PIL import Image
 from collections import defaultdict
 
-img = Image.open('test.png')
+def main(img_name):
+	img = Image.open(img_name)
 
-w,h = img.size
+	w,h = img.size
 
-symbols = defaultdict(str)
-characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-for i in range(h):
-	for j in range(w):
-		c = "".join(["{}{}".format(hex(x//16).split('x')[-1], hex(x%16).split('x')[-1]) for x in list(img.getpixel((j,i)))])
-		d = " "
-		if c not in symbols.keys():
-			symbols[c] = characters[0]
-			characters = characters[1:]
-		d = symbols[c]
-		print(d, end="")
-	print()
+	symbols = defaultdict(str)
+	symbols["transparent"] = " "
+	characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	l = 0
+	for i in range(h):
+		k = 0
+		for j in range(w):
+			c = "".join(["{}{}".format(hex(x//16).split('x')[-1], hex(x%16).split('x')[-1]) for x in list(img.getpixel((j,i)))])
+			d = " "
+			if c[-2:] == "ff":
+				cs = c[:-2]
+				if cs not in symbols.keys():
+					symbols[cs] = characters[0]
+					characters = characters[1:]
+				d = symbols[cs]
+			print(d, end="")
+			k += 1
+			if k == 9:
+				print("|", end="")
+				k = 0
+		print()
+		l += 1
+		if l == 9:
+			for ww in range(int(w*1.1)+1):
+				if (ww+1)%10 == 0:
+					print("+", end="")
+				else:
+					print("-", end="")
+			l = 0
+			print()
+	
+	print("\nLEGEND")
+	for k,v in symbols.items():
+		print("{}: #{}".format(v,k))
+
+if __name__ == "__main__":
+	#print(len(sys.argv))
+	#print(sys.argv[1])
+	if len(sys.argv) >= 2:
+		img_name = sys.argv[1]
+	else:
+		img_name = "test.png"
+	main(img_name)
