@@ -1,3 +1,21 @@
+""" Converts pixel-art images into cross-stitch patterns.
+
+	This tool assumes that 1px = 1 stitch.
+
+	TODO:
+		* Change characters to symbols for ease of reading.
+		* Expand number of symbols.
+		* Create image from symbolized pixels instead of just printing to screen.
+		* Add grid lines and edge labels to image.
+		* Add legend to image, based on the `symbols` dictionary.
+		* Correspond hex colors to floss colors, where possible.
+		* (Maybe) add stitch count for each color.
+		* (Maybe) add GUI.
+"""
+
+__author__ = "Noëlle Anthony"
+__version__ = "0.1.0"
+
 from PIL import Image
 from collections import defaultdict
 
