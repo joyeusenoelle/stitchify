@@ -3,6 +3,7 @@
 	This tool assumes that 1px = 1 stitch.
 
 	TODO:
+		* Accept image name from command line.
 		* Change characters to symbols for ease of reading.
 		* Expand number of symbols.
 		* Create image from symbolized pixels instead of just printing to screen.
