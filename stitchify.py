@@ -15,7 +15,7 @@
 """
 
 __author__ = "Noëlle Anthony"
-__version__ = "0.3.0"
+__version__ = "0.3.1"
 
 import sys
 from PIL import Image, ImageDraw
@@ -75,19 +75,20 @@ def main(img_name):
 	print("{} keys".format(keys))
 #	print("\n".join(legend))
 
-	owid, ohgt = (w*10)+10, (h*10)+10+(15*(int(keys/3)+1))
+	owid, ohgt = (w*10)+10, (h*10)+20+(15*(int(keys/3)+1))
 	print((owid, ohgt))
 	oimg = Image.new("RGB", (owid, ohgt), "white")
 	draw = ImageDraw.Draw(oimg)
+	woff, hoff = int(((w)%10)/2)+1, int(((h)%10)/2)+1
 	for ww in range(1, w+1):
 		posx = ww * 10
-		linecolor = 0 if posx % 100 == 0 else (128,128,128)
-		linewidth = 2 if posx % 100 == 0 else 1
-		draw.line((posx, 10, posx, (h*10)), fill=linecolor, width=linewidth)
-	for hh in range(1, h+1):
+		linecolor = 0 if (posx-(woff*10)) % 100 == 0 else (128,128,128)
+		linewidth = 2 if (posx-(woff*10)) % 100 == 0 else 1
+		draw.line((posx, 10, posx, ((h+1)*10)), fill=linecolor, width=linewidth)
+	for hh in range(1, h+2):
 		posy = hh * 10
-		linecolor = 0 if posy % 100 == 0 else (128,128,128)
-		linewidth = 2 if posx % 100 == 0 else 1
+		linecolor = 0 if (posy-(hoff*10)) % 100 == 0 else (128,128,128)
+		linewidth = 2 if (posy-(hoff*10)) % 100 == 0 else 1
 		draw.line((10, posy, owid, posy), fill=linecolor, width=linewidth)
 	char_positions = [x*10+4 for x in range(1,h+1)]
 #	print(char_positions)
@@ -106,7 +107,7 @@ def main(img_name):
 			legend_out += "\n"
 		else:
 			legend_out += "    "
-	draw.text((20, (h*10)+10), legend_out, fill=0)
+	draw.text((20, (h*10)+20), legend_out, fill=0)
 	oimg.save(oimg_name)
 	print("Saved {}".format(oimg_name))
 
