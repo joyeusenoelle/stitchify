@@ -10,7 +10,7 @@
 		* Add grid lines and edge labels to image. (DONE)
 		* Add legend to image, based on the `symbols` dictionary. (DONE)
 		* Correspond hex colors to floss colors, where possible.
-		* (Maybe) add stitch count for each color.
+		* (Maybe) add stitch count for each color. (DONE)
 		* (Maybe) add GUI.
 """
 
@@ -30,7 +30,8 @@ def main(img_name):
 
 	symbols = defaultdict(str)
 	symbols["transparent"] = " "
-	characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+	symbol_counts = defaultdict(int)
 #	l = 0
 	lines = []
 	for i in range(h):
@@ -44,6 +45,7 @@ def main(img_name):
 				if cs not in symbols.keys():
 					symbols[cs] = characters[0]
 					characters = characters[1:]
+				symbol_counts[cs] += 1
 				d = symbols[cs]
 			line.append(d)
 #			print(d, end="")
@@ -65,19 +67,23 @@ def main(img_name):
 	
 #	print("\nLEGEND")
 	legend = []
+	keys = 0
 	for k,v in symbols.items():
 		if v != " ":
-			legend.append("{}: #{}".format(v,k))
+			keys += 1
+			legend.append("{}: #{} ({}ct)".format(v, k, symbol_counts[k]))
+	print("{} keys".format(keys))
 #	print("\n".join(legend))
 
-	owid, ohgt = (w*10)+10, (h*10)+30
+	owid, ohgt = (w*10)+10, (h*10)+10+(15*(int(keys/3)+1))
+	print((owid, ohgt))
 	oimg = Image.new("RGB", (owid, ohgt), "white")
 	draw = ImageDraw.Draw(oimg)
 	for ww in range(1, w+1):
 		posx = ww * 10
 		linecolor = 0 if posx % 100 == 0 else (128,128,128)
 		linewidth = 2 if posx % 100 == 0 else 1
-		draw.line((posx, 10, posx, ohgt-20), fill=linecolor, width=linewidth)
+		draw.line((posx, 10, posx, (h*10)), fill=linecolor, width=linewidth)
 	for hh in range(1, h+1):
 		posy = hh * 10
 		linecolor = 0 if posy % 100 == 0 else (128,128,128)
@@ -91,7 +97,16 @@ def main(img_name):
 		for char in range(len(line)):
 			draw.text((char_positions[char], char_positions[0]-4+adjust), line[char], fill=0)
 		adjust += 10
-	draw.text((20, ohgt-10), "    ".join(legend), fill=0)
+	legend_out = ""
+	item_ct = 0
+	for item in legend:
+		item_ct += 1
+		legend_out += item
+		if item_ct % 3 == 0:
+			legend_out += "\n"
+		else:
+			legend_out += "    "
+	draw.text((20, (h*10)+10), legend_out, fill=0)
 	oimg.save(oimg_name)
 	print("Saved {}".format(oimg_name))
 

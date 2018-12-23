@@ -15,5 +15,5 @@ TODO:
 * ~~Add grid lines and edge labels to image.~~
 * ~~Add legend to image, based on the `symbols` dictionary.~~
 * Correspond hex colors to floss colors, where possible.
-* (Maybe) add stitch count for each color.
+* ~~(Maybe) add stitch count for each color.~~
 * (Maybe) add GUI.
