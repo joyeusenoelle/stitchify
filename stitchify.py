@@ -15,7 +15,7 @@
 """
 
 __author__ = "Noëlle Anthony"
-__version__ = "0.3.1"
+__version__ = "0.3.2"
 
 import sys
 from PIL import Image, ImageDraw
@@ -30,7 +30,7 @@ def main(img_name):
 
 	symbols = defaultdict(str)
 	symbols["transparent"] = " "
-	characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+	characters = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
 	symbol_counts = defaultdict(int)
 #	l = 0
 	lines = []
