@@ -90,13 +90,18 @@ def main(img_name):
 		linecolor = 0 if (posy-(hoff*10)) % 100 == 0 else (128,128,128)
 		linewidth = 2 if (posy-(hoff*10)) % 100 == 0 else 1
 		draw.line((10, posy, owid, posy), fill=linecolor, width=linewidth)
-	char_positions = [x*10+4 for x in range(1,h+1)]
+	char_positions = [x*10+4 for x in range(1,max(h,w)+1)]
 #	print(char_positions)
 	#char_colors = {" ": (0,0,0), "A": (0,0,0), "B": (128,0,0), "C": (0,128,0), "D": (0,255,255), "E": (128,128,0), "F": (128,0,128), "G": (0,0,0)}
 	adjust = 0
 	for line in lines:
 		for char in range(len(line)):
-			draw.text((char_positions[char], char_positions[0]-4+adjust), line[char], fill=0)
+	#		print(char_positions[char])
+	#		print(line[char])
+			try:
+				draw.text((char_positions[char], char_positions[0]-4+adjust), line[char], fill=0)
+			except:
+				pass
 		adjust += 10
 	legend_out = ""
 	item_ct = 0
